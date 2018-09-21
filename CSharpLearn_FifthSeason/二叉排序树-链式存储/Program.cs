@@ -15,9 +15,15 @@ namespace 二叉排序树_链式存储
             BinarySortTree bst = new BinarySortTree();
             
             bst.AddRange(datas);
-            Console.WriteLine("finish add..." + bst.nodeCount);
+            Console.WriteLine("finish add......the count is " + bst.nodeCount);
+
+            bst.TreeTraversalBySort();
+            Console.WriteLine();
+
+            bst.Delete(40);
 
             bst.TreeTraversal();
+            Console.WriteLine();
 
             Console.ReadKey();
 
