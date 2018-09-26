@@ -43,6 +43,7 @@ namespace 二叉排序树_链式存储
             if (root == null)
             {
                 root = newNode;
+                root.Parent = null;
                 nodeCount = 1;
             }
             else
@@ -60,6 +61,7 @@ namespace 二叉排序树_链式存储
                 while (rootNode != null)
                 {
                     tempNode = rootNode;
+                    newNode.Parent = tempNode;
 
                     //这里只是更改了rootNode的指向，并不影响root
                     rootNode = rootNode.data > item ? rootNode.LeftNode : rootNode.RightNode;
@@ -89,7 +91,7 @@ namespace 二叉排序树_链式存储
                 return root;
         }
 
-        private BSNode SearchMinNode(BSNode root) 
+        private BSNode SearchMinNode(BSNode root)
         {
             if (root == null)
                 return null;
@@ -111,9 +113,24 @@ namespace 二叉排序树_链式存储
                 return SearchMaxNode(root.RightNode);
         }
 
-        public void TreeTraversal()
+        public void TreeTraversal(BSNode root = null)
         {
-            BreadthFirstTravel(this.root);
+            if (root != null)
+            {
+                BreadthFirstTravel(root);
+            }
+            else
+            {
+                if (this.root == null)
+                {
+                    return;
+                }
+                else
+                {
+
+                    BreadthFirstTravel(this.root);
+                }
+            }
         }
 
         public void TreeTraversalBySort()
@@ -136,38 +153,41 @@ namespace 二叉排序树_链式存储
 
         }
 
-        private void BreadthFirstTravel(BSNode root) 
+        private void BreadthFirstTravel(BSNode root)
         {
             Queue<BSNode> que = new Queue<BSNode>();
             que.Enqueue(root);
 
             while (que.Count != 0)
             {
-               root =  que.Peek();
-               Console.Write(root.data + "  ");
+                root = que.Peek();
+                Console.Write(root.data + "  ");
 
-               que.Dequeue();
-               if (root.LeftNode != null)
-               {
-                   que.Enqueue(root.LeftNode);
-               }
+                que.Dequeue();
+                if (root.LeftNode != null)
+                {
+                    que.Enqueue(root.LeftNode);
+                }
 
-               if (root.RightNode != null)
-               {
-                   que.Enqueue(root.RightNode);
-               }
+                if (root.RightNode != null)
+                {
+                    que.Enqueue(root.RightNode);
+                }
 
             }
 
         }
 
-        public  void Delete(int data)
+        public void Delete(int data)
         {
             Delete(this.root, data);
         }
 
         private void Delete(BSNode root, int data)
         {
+            //root = null;//没有效果
+            //this.root = null;//这个才能真正赋值为null
+
             BSNode tempRoot = root;
 
             if (root == null)
@@ -179,7 +199,26 @@ namespace 二叉排序树_链式存储
                 //如果node是叶子节点
                 if (tempRoot.LeftNode == null && tempRoot.RightNode == null)
                 {
-                    tempRoot = null;
+                    //Console.WriteLine("设置为空......");
+                    //tempRoot = null;//为什么没有效果
+                    // root = null;//为什么没有效果
+
+                    //为什么这样就可以
+                    if (tempRoot.Parent == null)
+                    {
+                        //tempRoot = null;//没有效果
+                        //root = null;//同样没有效果
+                        this.root = null;
+                    }
+                    else if (tempRoot.Parent.LeftNode != null)
+                    {
+                        tempRoot.Parent.LeftNode = null;
+                    }
+                    else if (tempRoot.Parent.RightNode != null)
+                    {
+                        tempRoot.Parent.RightNode = null;
+                    }
+
                 }
                 else
                 {
@@ -187,29 +226,43 @@ namespace 二叉排序树_链式存储
                     if (tempRoot.LeftNode != null && tempRoot.RightNode != null)
                     {
                         //method1：以右子树内的最小节点取代该节点
-                        BSNode mimimum = SearchMinNode(tempRoot.RightNode);
-                        //Console.WriteLine("右子树最小：" + mimimum.data);
-                        tempRoot.data = mimimum.data;
-                        mimimum = null;
-                        //node = null;
-                        
+
+                        BSNode minR = tempRoot.RightNode;
+
+                        if (minR.LeftNode == null)
+                        {
+                            tempRoot.data = minR.data;
+                            tempRoot.RightNode = null;
+                            //minR.data = 70;//进行了改变啊
+                            //minR = null;//直接使用miR = null为什么不行?
+                        }
+                        else
+                        {
+                            BSNode minRParent = null;
+                            while (minR.LeftNode != null)
+                            {
+                                minRParent = minR;
+                                minR = minR.LeftNode;
+                            }
+
+                            minRParent.LeftNode = null;
+                            tempRoot.data = minR.data;
+                            tempRoot.RightNode = minRParent;
+                        }
+
                         //method2：以左子树内的最大节点取代该节点
-                        //BSNode greatest = SearchMaxNode(node.LeftNode);
-                        //tempRoot.data = greatest.data;
-                        //greatest = null;
+
 
                     }
                     //如果左节点不为空
                     else if (tempRoot.LeftNode != null && tempRoot.RightNode == null)
                     {
                         tempRoot = tempRoot.LeftNode;
-                        //node = null;
                     }
                     //如果右节点不为空
                     else if (tempRoot.LeftNode == null && tempRoot.RightNode != null)
                     {
                         tempRoot = tempRoot.RightNode;
-                        //node = null;
                     }
                 }
             }
