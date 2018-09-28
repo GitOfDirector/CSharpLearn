@@ -10,8 +10,9 @@ namespace 动态规划_背包问题_穷举法
     {
         static void Main(string[] args)
         {
-            //string str = "abcdefg";
-            //Console.WriteLine(str[0]);
+            //string str = "102201";
+            //char c = str[0];
+            //Console.WriteLine("第一个字符：" + str[0] + "===" + c);
 
             //int backpackCapacity = 100;//背包容量
 
@@ -20,6 +21,7 @@ namespace 动态规划_背包问题_穷举法
 
             Console.WriteLine("1===" + Exhaustivity(10, w, p));
             Console.WriteLine("1===" + Exhaustivity(30, w, p));
+            Console.WriteLine("2===" + Exhaustivity2(10, w, p));
             Console.WriteLine("2===" + Exhaustivity2(30, w, p));
 
 
@@ -34,7 +36,7 @@ namespace 动态规划_背包问题_穷举法
 
         public static int Exhaustivity(int m, int[] w, int[] p)
         {
-            int goodsNum = w.Length - 1;//物品种类
+            int goodsNum = w.Length;//物品种类
 
             /* 
              *对于n中物品，可以将其看成n位的二进制数，
@@ -64,12 +66,16 @@ namespace 动态规划_背包问题_穷举法
                 for (int j = 0; j < binaryStr.Length; j++)
                 {
                     //字符串第 j 位 相当于 第 len-j 位二进制数
-                    //char c = binaryStr[len - j - 1];
-                    //if (c == '1')
-                    //{
-                    //    weightTotal += w[j];
-                    //    priceTotal += p[j];
-                    //}
+
+                    //int cPos = len - j;
+                    //Console.WriteLine(cPos);
+
+                    char c = binaryStr[len - j];
+                    if (c == '1')
+                    {
+                        weightTotal += w[j];
+                        priceTotal += p[j];
+                    }
                 }
                 //Console.WriteLine();
 
