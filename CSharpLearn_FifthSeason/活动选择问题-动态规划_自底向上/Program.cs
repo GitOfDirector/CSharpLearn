@@ -75,6 +75,14 @@ namespace 活动选择问题_动态规划_自底向上
                         int maxCount = 0;
                         foreach (var num in sij)
                         {
+                            /*
+                             * 设c[i, j]为Sij中最大兼容子集中的活动数目，
+                             *      当Sij为空集时，c[i, j]=0；
+                             *      当Sij非空时，若ak在Sij的最大兼容子集中被使用，
+                             *   则子问题Sik和Skj的最大兼容子集也被使用，故可得到c[i][j] = c[i, k]+c[k, j]+1
+                             */
+
+
                             int count = resultSiki[i, num].Count + resultSiki[num, j].Count + 1;
                             if (maxCount < count)
                             {
