@@ -12,13 +12,13 @@ namespace 装饰者
 
         public Mocha(Beverage beverage)
         {
-            Console.WriteLine("当前字符串：" +beverage.GetDescription());
+            //Console.WriteLine("当前字符串：" +beverage.GetDescription());
             this.beverage = beverage;
         }
 
         public override string GetDescription()
         {
-            Console.WriteLine("为什么。。。");
+            //Console.WriteLine("为什么。。。");
             return beverage.GetDescription() + ", Mocha";
         }
 

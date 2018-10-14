@@ -34,6 +34,9 @@ namespace 装饰者
             cb.HelloP();
             cb.WriteP();
 
+            //pa.OnlyInChild();//父类无法调用该方法，因为只有子类定义了该方法
+            cb.OnlyInChild();
+
             Console.ReadKey();
         }
     }
@@ -62,6 +65,11 @@ namespace 装饰者
         public override void WriteP()
         {
             Console.WriteLine("In Child Write---2");
+        }
+
+        public void OnlyInChild()
+        {
+            Console.WriteLine("Only child have the function...");
         }
 
     }

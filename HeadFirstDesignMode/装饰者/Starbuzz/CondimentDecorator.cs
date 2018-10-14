@@ -8,7 +8,7 @@ namespace 装饰者
 {
     abstract  class CondimentDecorator : Beverage
     {
-        public new abstract string GetDescription();
-      
+        public override abstract string GetDescription();
+       
     }
 }
